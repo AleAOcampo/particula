@@ -1,8 +1,13 @@
 ArrayList <particula> particulas;
+particula k;
+particula a;
 
 void setup()
 {
   size(400,400);
+  k = new particula(100,100,2,0,10,color(255,0,0));
+  a = new particula(200,200,2,0,10,color(255,0,0));
+  
   particulas = new ArrayList <particula>();
   
   for(int i = 0; i<100; i++)
@@ -14,6 +19,10 @@ void setup()
 void draw()
 {
   background(255);
+  k.display();
+  k.movimiento();
+  a.display();
+  a.movimiento();
   
   for(particula p: particulas)
   {
@@ -25,8 +34,8 @@ void draw()
 
 void mousePressed()
 {
-  particula foo = new particula(mouseX, mouseY);
-  particulas.add(foo);
+  particula k = new particula(mouseX, mouseY);
+  particulas.add(k);
 }
 
 class particula
@@ -58,7 +67,7 @@ class particula
   {
     x = x_;
     y = y_;
-    v = random(10);
+    v = random(5);
     a = random(TWO_PI);
     t = random(1,30);
     c = color(random(255), random(255), random(255));
@@ -69,13 +78,25 @@ class particula
     pushMatrix();
     translate(x,y);
     fill(c);
-    ellipse(0,0,t,t);
+    ellipse(x,y,t,t);
     popMatrix();
   }
   
   void movimiento()
   {
-    x += random(-a,v);
-    y += random(-a,v);
+    x+= cos(a)*v;
+    y+= sin(a)*v;
+    
+    if(x>=370)
+    a= random(PI/2, HALF_PI+PI/2);
+    
+    if(x<=0)
+    a= random(-PI/2, PI/2);
+    
+    if(y>=370)
+    a= random(PI, TWO_PI);
+    
+    if(y<=0)
+    a= random(PI);
   }
 }
